@@ -1,0 +1,105 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html">
+	<h:head>
+		<title>Mes Contacts | Exemple</title>
+		<h:outputStylesheet>
+            th, td {
+                text-align: center;
+            }
+
+            h3 {
+                margin-top: 0;
+                text-align: center;
+            }
+
+            input[type="text"] {
+                width: 100%;
+                box-sizing: border-box;
+                -webkit-box-sizing:border-box;
+                -moz-box-sizing: border-box;
+            }
+
+        </h:outputStylesheet>
+	</h:head>
+	<h:body>
+		<p:outputPanel>
+			<h3>Liste Des Contacts</h3>
+			<div class="ui-g">
+				<div class="ui-g-2" />
+				<div class="ui-g-8">
+					<h:form id="contacts">
+						<p:growl id="growl" sticky="true" />
+
+						<p:dataTable id="contactList" var="contact"
+							value="#{contactbean.contacts}">
+							<p:column headerText="Id">
+								<h:outputText value="#{contact.idcontact}" />
+							</p:column>
+
+							<p:column headerText="nom">
+								<p:inputText id="nom" value="#{contact.nom}" />
+							</p:column>
+
+							<p:column headerText="prenom">
+								<p:inputText id="prenom" value="#{contact.prenom}" />
+							</p:column>
+
+							<p:column headerText="numero">
+								<p:inputText id="numero" value="#{contact.numero}" />
+							</p:column>
+							<p:column>
+								<p:commandButton update="contactList" value="Delete"
+									icon="ui-icon-closethick"
+									action="#{contactbean.deleteContact(contact)}"
+									styleClass="ui-state-error">
+								</p:commandButton>
+							</p:column>
+							<p:column>
+								<p:commandButton update="contactList" value="Update"
+									icon="ui-icon-disk"
+									action="#{contactbean.updateContact(contact)}"
+									styleClass="ui-state-highlight">
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+						<br />						
+					</h:form>
+				</div>
+				<div class="ui-g-2"></div>
+			</div>
+			<h3>Ajouter Un Nouveau Contact</h3>
+			<div class="ui-g">
+				<div class="ui-g-2"></div>
+				<div class="ui-g-8">
+					<h:form id="add">
+						<h:panelGrid columns="3" cellpadding="5" style="margin: 0 auto;">
+							<p:outputLabel for="nom" value="nom" />
+							<p:inputText id="nom" value="#{contactbean.contact.nom}" />
+							<p:message for="nom" />
+
+							<p:outputLabel for="prenom" value="prenom" />
+							<p:inputText id="prenom"
+								value="#{contactbean.contact.prenom}">
+							</p:inputText>
+							<p:message for="prenom" />
+
+							<p:outputLabel for="numero" value="numero" />
+							<p:inputText id="numero"
+								value="#{contactbean.contact.numero}">
+							</p:inputText>
+							<p:message for="numero" />
+							<p:commandButton update="@form :contacts:contactList" value="Add"
+								action="#{contactbean.addContact}">
+							</p:commandButton>
+						</h:panelGrid>
+					</h:form>
+				</div>
+				<div class="ui-g-2"></div>
+			</div>
+		</p:outputPanel>
+	</h:body>
+</f:view>
+</html>
