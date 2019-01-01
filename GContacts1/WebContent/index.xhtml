@@ -24,17 +24,52 @@
 
         </h:outputStylesheet>
 	</h:head>
+
 	<h:body>
 		<p:outputPanel>
-			<h3>Liste Des Contacts</h3>
 			<div class="ui-g">
-				<div class="ui-g-2" />
+				<div class="ui-g-4"></div>
+				<div class="ui-g-4">
+					<h3>Liste Des Contacts</h3>
+				</div>
+				<div class="ui-g-1"></div>
+				<div class="ui-g-3">
+					<p:commandButton action="#{userbean.logout}" icon="ui-icon-power"
+						styleClass="ui-state-default" value="LogOut"></p:commandButton>
+				</div>
+			</div>
+			<div class="ui-g">
+				<div class="ui-g-2"></div>
 				<div class="ui-g-8">
 					<h:form id="contacts">
 						<p:growl id="growl" sticky="true" />
 
 						<p:dataTable id="contactList" var="contact"
-							value="#{contactbean.contacts}">
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+							paginator="true" rows="10" style="margin-bottom:20px" value="#{contactbean.contacts}">
+							<f:facet name="{Exporters}">
+								<div style="float: right; padding-top: 5px;">
+									<h:commandLink>
+										<p:graphicImage name="/demo/images/excel.png" width="24" />
+										<p:dataExporter type="xls" target="contactList" fileName="mesContacts" />
+									</h:commandLink>
+
+									<h:commandLink>
+										<p:graphicImage name="/demo/images/pdf.png" width="24" />
+										<p:dataExporter type="pdf" target="contactList" fileName="mesContacts" />
+									</h:commandLink>
+
+									<h:commandLink>
+										<p:graphicImage name="/demo/images/csv.png" width="24" />
+										<p:dataExporter type="csv" target="contactList" fileName="mesContacts" />
+									</h:commandLink>
+
+									<h:commandLink>
+										<p:graphicImage name="/demo/images/xml.png" width="24" />
+										<p:dataExporter type="xml" target="contactList" fileName="mesContacts" />
+									</h:commandLink>
+								</div>
+							</f:facet>
 							<p:column headerText="Id">
 								<h:outputText value="#{contact.idcontact}" />
 							</p:column>
@@ -50,14 +85,14 @@
 							<p:column headerText="numero">
 								<p:inputText id="numero" value="#{contact.numero}" />
 							</p:column>
-							<p:column>
+							<p:column headerText="Delete">
 								<p:commandButton update="contactList" value="Delete"
-									icon="ui-icon-closethick"
+									icon="ui-icon-trash"
 									action="#{contactbean.deleteContact(contact)}"
 									styleClass="ui-state-error">
 								</p:commandButton>
 							</p:column>
-							<p:column>
+							<p:column headerText="Update">
 								<p:commandButton update="contactList" value="Update"
 									icon="ui-icon-disk"
 									action="#{contactbean.updateContact(contact)}"
@@ -65,7 +100,7 @@
 								</p:commandButton>
 							</p:column>
 						</p:dataTable>
-						<br />						
+						<br />
 					</h:form>
 				</div>
 				<div class="ui-g-2"></div>
@@ -81,18 +116,18 @@
 							<p:message for="nom" />
 
 							<p:outputLabel for="prenom" value="prenom" />
-							<p:inputText id="prenom"
-								value="#{contactbean.contact.prenom}">
+							<p:inputText id="prenom" value="#{contactbean.contact.prenom}">
 							</p:inputText>
 							<p:message for="prenom" />
 
 							<p:outputLabel for="numero" value="numero" />
-							<p:inputText id="numero"
-								value="#{contactbean.contact.numero}">
+							<p:inputText id="numero" value="#{contactbean.contact.numero}">
 							</p:inputText>
 							<p:message for="numero" />
+							<p:outputLabel for="" value="" />
 							<p:commandButton update="@form :contacts:contactList" value="Add"
-								action="#{contactbean.addContact}">
+								action="#{contactbean.addContact}"
+								styleClass="ui-state-error-text" icon="ui-icon-contact">
 							</p:commandButton>
 						</h:panelGrid>
 					</h:form>

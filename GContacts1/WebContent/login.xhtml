@@ -2,30 +2,61 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
-<h:head>
-	<title>Login | Exemple</title>
-</h:head>
-<h:body>
-	<h:form>
-		<table>
-			<tr>
-				<td><h:outputLabel value="Login" for="login"></h:outputLabel></td>
-				<td><h:inputText value="#{userbean.user.login}"></h:inputText>
-				</td>
-			</tr>
-			<tr>
-				<td><h:outputLabel value="Password" for="password"></h:outputLabel>
-				</td>
-				<td><h:inputText value="#{userbean.user.password}"></h:inputText>
-				</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><h:commandButton action="#{userbean.login}" value="LogIn"></h:commandButton>
-				</td>
-			</tr>
-		</table>
-	</h:form>
-</h:body>
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html">
+	<h:head>
+		<title>Login | Exemple</title>
+		<h:outputStylesheet>
+            th, td {
+                text-align: center;
+            }
+
+            h3 {
+                margin-top: 0;
+                text-align: center;
+            }
+
+            input[type="text"] {
+                width: 100%;
+                box-sizing: border-box;
+                -webkit-box-sizing:border-box;
+                -moz-box-sizing: border-box;
+            }
+
+        </h:outputStylesheet>
+	</h:head>
+	<h:body>
+		<p:outputPanel>
+			<h3>page d'Authentification</h3>
+			<div class="ui-g">
+				<div class="ui-g-2"></div>
+				<div class="ui-g-8">
+					<h:form>
+						<table columns="3" cellpadding="5" style="margin: 0 auto;">
+							<tr>
+								<td><h:outputLabel value="Login" for="login"></h:outputLabel></td>
+								<td><h:inputText value="#{userbean.user.login}"></h:inputText>
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputLabel value="Password" for="password"></h:outputLabel>
+								</td>
+								<td><h:inputText value="#{userbean.user.password}"></h:inputText>
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><h:commandButton styleClass="ui-priority-secondary"
+										icon="ui-icon-disk" action="#{userbean.login}" value="LogIn"></h:commandButton>
+								</td>
+							</tr>
+						</table>
+					</h:form>
+				</div>
+				<div class="ui-g-1"></div>
+			</div>
+		</p:outputPanel>
+	</h:body>
+</f:view>
 </html>
