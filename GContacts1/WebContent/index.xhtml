@@ -21,6 +21,12 @@
                 -webkit-box-sizing:border-box;
                 -moz-box-sizing: border-box;
             }
+            
+            .hide
+			{
+			display:none;
+			visibility:hidden;
+			}
 
         </h:outputStylesheet>
 	</h:head>
@@ -30,7 +36,8 @@
 			<div class="ui-g">
 				<div class="ui-g-4"></div>
 				<div class="ui-g-4">
-					<h3>Liste Des Contacts</h3>
+					<h3>Liste Des Contacts de - <h:outputLabel value="#{userbean.user.nom} "/> <h:outputLabel value="#{userbean.user.prenom}"/> </h3>
+					
 				</div>
 				<div class="ui-g-1"></div>
 				<div class="ui-g-3">
@@ -45,54 +52,76 @@
 						<p:growl id="growl" sticky="true" />
 
 						<p:dataTable id="contactList" var="contact"
+							widgetVar="Tablecontact"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
-							paginator="true" rows="10" style="margin-bottom:20px" value="#{contactbean.contacts}">
+							paginator="true" rows="10" style="margin-bottom:20px"
+							value="#{contactbean.contacts}"
+							filteredValue="#{contactbean.contactfilter}">
+
+							<f:facet name="header">
+								<p:outputPanel>
+									<h:outputText value="" />
+									<p:inputText id="globalFilter"
+										onkeyup="PF('Tablecontact').filter()" style="width:150px"
+										placeholder="recherche !" />
+								</p:outputPanel>
+							</f:facet>
 							<f:facet name="{Exporters}">
 								<div style="float: right; padding-top: 5px;">
 									<h:commandLink>
-										<p:graphicImage url="demo/excel.png" width="24" />
-										<p:dataExporter type="xls" target="contactList" fileName="mesContacts" />
+										<p:graphicImage url="/demo/excel.png" width="24" />
+										<p:dataExporter type="xls" target="contactList"
+											fileName="mesContacts" />
 									</h:commandLink>
 
 									<h:commandLink>
-										<p:graphicImage url="demo/pdf.png" width="24" />
-										<p:dataExporter type="pdf" target="contactList" fileName="mesContacts" />
+										<p:graphicImage url="/demo/pdf.png" width="24" />
+										<p:dataExporter type="pdf" target="contactList"
+											fileName="mesContacts" />
 									</h:commandLink>
 
 									<h:commandLink>
 										<p:graphicImage url="/demo/csv.png" width="24" />
-										<p:dataExporter type="csv" target="contactList" fileName="mesContacts" />
+										<p:dataExporter type="csv" target="contactList"
+											fileName="mesContacts" />
 									</h:commandLink>
 
 									<h:commandLink>
-										<p:graphicImage url="./demo/xml.png" width="24" />
-										<p:dataExporter type="xml" target="contactList" fileName="mesContacts" />
+										<p:graphicImage url="/demo/xml.png" width="24" />
+										<p:dataExporter type="xml" target="contactList"
+											fileName="mesContacts" />
 									</h:commandLink>
 								</div>
 							</f:facet>
-							<p:column headerText="Id">
+							<p:column filterBy="#{contact.idcontact}"
+								filterStyle="display:none; visibility:hidden;" headerText="Id">
 								<h:outputText value="#{contact.idcontact}" />
 							</p:column>
 
-							<p:column headerText="nom">
+							<p:column filterBy="#{contact.nom}"
+								filterStyle="display:none; visibility:hidden;" headerText="nom">
 								<p:inputText id="nom" value="#{contact.nom}" />
 							</p:column>
 
-							<p:column headerText="prenom">
+							<p:column filterBy="#{contact.prenom}"
+								filterStyle="display:none; visibility:hidden;"
+								headerText="prenom">
 								<p:inputText id="prenom" value="#{contact.prenom}" />
 							</p:column>
 
-							<p:column headerText="numero">
+							<p:column filterBy="#{contact.numero}"
+								filterStyle="display:none; visibility:hidden;"
+								headerText="numero">
 								<p:inputText id="numero" value="#{contact.numero}" />
 							</p:column>
-							<p:column headerText="Delete">
+							<p:column headerText="Delete" exportable="false">
 								<p:commandButton update="contactList" value="Delete"
 									icon="ui-icon-trash"
 									action="#{contactbean.deleteContact(contact)}"
 									styleClass="ui-state-error">
 								</p:commandButton>
 							</p:column>
-							<p:column headerText="Update">
+							<p:column headerText="Update" exportable="false">
 								<p:commandButton update="contactList" value="Update"
 									icon="ui-icon-disk"
 									action="#{contactbean.updateContact(contact)}"
